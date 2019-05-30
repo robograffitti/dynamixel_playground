@@ -134,6 +134,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(master_slave_service src/master_slave_service.cpp)
+add_executable(master_slave_joint_traj src/master_slave_joint_traj.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -144,11 +145,11 @@ add_executable(master_slave_service src/master_slave_service.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(master_slave_service ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(master_slave_joint_traj ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(master_slave_service
-  ${catkin_LIBRARIES}
-)
+target_link_libraries(master_slave_service ${catkin_LIBRARIES})
+target_link_libraries(master_slave_joint_traj ${catkin_LIBRARIES})
 
 #############
 ## Install ##

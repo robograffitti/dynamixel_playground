@@ -25,8 +25,6 @@ def joint_states_callback(msg):
     traj.header.stamp = rospy.Time.now()
     traj.header.frame_id = msg.header.frame_id
 
-    print "%s" % traj.header.seq
-
     traj.joint_names = range(1)
     traj.joint_names = ['tilt']
 
@@ -62,7 +60,7 @@ def joint_traj_handler():
     # ROS loop w/ rate
     rate = rospy.Rate(control_cycle)
     while not rospy.is_shutdown():
-        print "loop"
+        # print "loop"
         joint_traj_pub.publish(traj)
         rate.sleep()
 

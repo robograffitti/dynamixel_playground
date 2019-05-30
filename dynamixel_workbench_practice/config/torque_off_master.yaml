@@ -3,8 +3,7 @@ pan:
   Return_Delay_Time: 0
   Operating_Mode : 4
   LED : 1
-  # Goal_Current : 0
-  # Torque_Enable : 0 # does not work Torque_Enable from yaml file
+  Torque_Enable : 0 # does not work Torque_Enable from yaml file
   # Max_Position_Limit : 4095
   # Min_Position_Limit : 0
 tilt:
@@ -12,7 +11,7 @@ tilt:
   Return_Delay_Time: 0
   Operating_Mode : 4
   LED : 1
-  # Torque_Enable : 1
+  Torque_Enable : 1
   # Max_Position_Limit : 4095
   # Min_Position_Limit : 0
 
