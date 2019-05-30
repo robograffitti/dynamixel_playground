@@ -13,7 +13,7 @@ id_2 = 2
 # subscribe joint states and call dynamixel command service.
 def joint_states_callback(msg):
 
-    print "current master angle: %s" % msg.dynamixel_state[0].present_position
+    # print "current master angle: %s" % msg.dynamixel_state[0].present_position
 
     # service clinent implementation
     rospy.wait_for_service('dynamixel_workbench/dynamixel_command')
