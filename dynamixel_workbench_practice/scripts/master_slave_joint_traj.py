@@ -6,19 +6,17 @@ from trajectory_msgs.msg import JointTrajectory
 from trajectory_msgs.msg import JointTrajectoryPoint
 from dynamixel_workbench_msgs.srv import DynamixelCommand
 from dynamixel_workbench_msgs.srv import DynamixelCommandResponse
+from math import pi
 
 # Publisher
-joint_traj_pub = rospy.Publisher('/dynamixel_workbench/joint_trajectory', JointTrajectory, queue_size=125)
+joint_traj_pub = rospy.Publisher('/dynamixel_workbench/joint_trajectory', JointTrajectory, queue_size=1)
 
-# count
-count = 0
+control_cycle = 100
 
 # subscribe joint states and call dynamixel command service.
 def joint_states_callback(msg):
 
-    # count += 1
-
-    position = msg.position[0] - msg.position[1]
+    position = pi * (msg.position[0] - msg.position[1])
     print "%s" % position
     print "pan: %s" % msg.position[0]
     print "tilt: %s" % msg.position[1]
@@ -37,18 +35,18 @@ def joint_states_callback(msg):
     point = JointTrajectoryPoint()
     point.positions = range(1)
     point.positions = [position]
-    point.time_from_start = rospy.Duration.from_sec(0.0125)
+    # point.time_from_start = rospy.Duration.from_sec(0.008)
+    point.time_from_start = rospy.Duration.from_sec(0.010)
 
     traj.points = range(1)
     traj.points = [point]
 
     joint_traj_pub.publish(traj)
 
-    rate = rospy.Rate(100)
+    rate = rospy.Rate(control_cycle)
     rate.sleep()
 
-if __name__ == "__main__":
-
+def joint_traj_handler():
     # initialize node
     rospy.init_node('dynamixel_command_client')
 
@@ -60,15 +58,20 @@ if __name__ == "__main__":
         print response.comm_result
     except rospy.ServiceException, e:
         print "Service call failed: %s" % e
-        # return DynamixelCommandResponse
+        return DynamixelCommandResponse
 
     # subscriber
-    joint_states_sub = rospy.Subscriber('/dynamixel_workbench/joint_states', JointState, joint_states_callback, queue_size=125)
+    joint_states_sub = rospy.Subscriber('/dynamixel_workbench/joint_states', JointState, joint_states_callback, queue_size=1)
 
-    # Spin
+    # ROS loop w/o rate
     rospy.spin()
 
-    # ROS loop
-    rate = rospy.Rate(125)
-    while not rospy.is_shutdown():
-        rate.sleep()
+    # ROS loop w/ rate
+    # rate = rospy.Rate(control_cycle)
+    # while not rospy.is_shutdown():
+    #     rate.sleep()
+
+if __name__ == "__main__":
+    try:
+        joint_traj_handler()
+    except rospy.ROSInterruptException: pass

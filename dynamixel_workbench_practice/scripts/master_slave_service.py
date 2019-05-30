@@ -5,7 +5,7 @@ from dynamixel_workbench_msgs.msg import DynamixelStateList
 from dynamixel_workbench_msgs.srv import DynamixelCommand
 from dynamixel_workbench_msgs.srv import DynamixelCommandResponse
 
-control_cycle = 125
+control_cycle = 125 # use if willing to regulate control cycle.
 queue = 1
 id_1 = 1
 id_2 = 2
