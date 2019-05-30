@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <name>dynamixel_playground</name>
+  <version>0.0.1</version>
+  <description>
+   <p>Metapackage that contains Yoshimaru's dynamixel practice</p>
+  </description>
+
+  <maintainer email="y-tanaka@jsk.t.u-tokyo.ac.jp">Yoshimaru Tanaka</maintainer>
+  <author email="y-tanaka@jsk.t.u-tokyo.ac.jp">Yoshimaru Tanaka</author>
+
+  <license>BSD</license>
+  <url type="website">http://ros.org/wiki/dynamixel_playground</url>
+  <url type="repository">https://github.com/yoshimalucky/dynamixel_playground</url>
+  <url type="bugtracker">https://github.com/yoshimalucky/dynamixel_playground/issues</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>dynamixel_workbench_controllers</run_depend>
+  <run_depend>dynamixel_workbench_practice</run_depend>
+  <export>
+    <metapackage/>
+  </export>
+</package>
