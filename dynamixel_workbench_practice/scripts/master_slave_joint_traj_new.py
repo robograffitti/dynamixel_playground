@@ -6,22 +6,20 @@ from trajectory_msgs.msg import JointTrajectory
 from trajectory_msgs.msg import JointTrajectoryPoint
 from dynamixel_workbench_msgs.srv import DynamixelCommand
 from dynamixel_workbench_msgs.srv import DynamixelCommandResponse
-from math import pi
 
-# Publisher
-joint_traj_pub = rospy.Publisher('/dynamixel_workbench/joint_trajectory', JointTrajectory, queue_size=1)
-
+# constant
 control_cycle = 100
+
+# shared msg data
+traj = JointTrajectory()
 
 # subscribe joint states and call dynamixel command service.
 def joint_states_callback(msg):
 
-    position = pi * (msg.position[0] - msg.position[1])
-    print "%s" % position
-    print "pan: %s" % msg.position[0]
-    print "tilt: %s" % msg.position[1]
-
-    traj = JointTrajectory()
+    position = 2 * msg.position[0] - msg.position[1]
+    # print "%s" % position
+    # print "pan: %s" % msg.position[0]
+    # print "tilt: %s" % msg.position[1]
 
     traj.header.seq = msg.header.seq
     traj.header.stamp = rospy.Time.now()
@@ -41,11 +39,6 @@ def joint_states_callback(msg):
     traj.points = range(1)
     traj.points = [point]
 
-    joint_traj_pub.publish(traj)
-
-    rate = rospy.Rate(control_cycle)
-    rate.sleep()
-
 def joint_traj_handler():
     # initialize node
     rospy.init_node('dynamixel_command_client')
@@ -63,13 +56,15 @@ def joint_traj_handler():
     # subscriber
     joint_states_sub = rospy.Subscriber('/dynamixel_workbench/joint_states', JointState, joint_states_callback, queue_size=1)
 
-    # ROS loop w/o rate
-    rospy.spin()
+    # publisher
+    joint_traj_pub = rospy.Publisher('/dynamixel_workbench/joint_trajectory', JointTrajectory, queue_size=1)
 
     # ROS loop w/ rate
-    # rate = rospy.Rate(control_cycle)
-    # while not rospy.is_shutdown():
-    #     rate.sleep()
+    rate = rospy.Rate(control_cycle)
+    while not rospy.is_shutdown():
+        print "loop"
+        joint_traj_pub.publish(traj)
+        rate.sleep()
 
 if __name__ == "__main__":
     try:
