@@ -9,7 +9,6 @@ control_cycle = 125
 queue = 1
 id_1 = 1
 id_2 = 2
-count = 0
 
 # subscribe joint states and call dynamixel command service.
 def joint_states_callback(msg):
@@ -25,8 +24,9 @@ def joint_states_callback(msg):
         print "Service call failed: %s" % e
         return DynamixelCommandResponse
 
-    rate = rospy.Rate(control_cycle)
-    rate.sleep()
+    # loop w/ rate
+    # rate = rospy.Rate(control_cycle)
+    # rate.sleep()
 
 def command_client():
 
@@ -48,13 +48,13 @@ def command_client():
     joint_states_sub = rospy.Subscriber('/dynamixel_workbench/dynamixel_state', DynamixelStateList,
                                         joint_states_callback, queue_size=queue)
 
-    # Spin
+    # ROS loop w/o rate
     rospy.spin()
 
-    # ROS loop
-    rate = rospy.Rate(control_cycle)
-    while not rospy.is_shutdown():
-        rate.sleep()
+    # ROS loop w/ rate
+    # rate = rospy.Rate(control_cycle)
+    # while not rospy.is_shutdown():
+    #     rate.sleep()
 
 if __name__ == "__main__":
     command_client()

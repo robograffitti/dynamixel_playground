@@ -2,8 +2,6 @@
 
 void jointStateCallback(const dynamixel_workbench_msgs::DynamixelStateListConstPtr& msg)
 {
-  ros::NodeHandle nh;
-  client = nh.serviceClient<dynamixel_workbench_msgs::DynamixelCommand>("/dynamixel_workbench/dynamixel_command");
 
   srv.request.command = "";
   srv.request.id = 2;
@@ -17,16 +15,12 @@ void jointStateCallback(const dynamixel_workbench_msgs::DynamixelStateListConstP
   else
     {
       ROS_ERROR("Failed to call service.");
-      // return 1;
+      return;
     }
 
-  ros::Rate loop_rate(control_cycle);
-  loop_rate.sleep(); // wait for dynamixel_command service.
-}
-
-void commandClient()
-{
-
+  // loop rate regulation
+  // ros::Rate loop_rate(control_cycle);
+  // loop_rate.sleep(); // wait for dynamixel_command service.
 }
 
 int main(int argc, char **argv)
@@ -41,32 +35,30 @@ int main(int argc, char **argv)
   srv.request.addr_name = "Torque_Enable";
   srv.request.value = 0;
 
-  if (count == 0 && client.call(srv))
+  if (client.call(srv))
     {
       ROS_INFO("True (=1) or False (=0) : %d", srv.response.comm_result);
     }
   else
     {
-      // ROS_ERROR("Failed to call service.");
-      // return 1;
+      ROS_ERROR("Failed to call service.");
+      return 1;
     }
 
-  count++;
-
-  ros::Rate loop_rate(control_cycle);
-  loop_rate.sleep(); // wait for dynamixel_command service.
+  ros::spinOnce(); // wait for the service request above
 
   ros::Subscriber joint_sub = nh.subscribe("/dynamixel_workbench/dynamixel_state", queue, jointStateCallback);
 
-  // ros::spin();
+  // infinite loop w/o rate
+  ros::spin();
 
-  while (ros::ok())
-    {
-      ros::spinOnce();
-      loop_rate.sleep();
-    }
-
-  // commandClient();
+  // infinite loop w/ rate
+  // ros::Rate loop_rate(control_cycle);
+  // while (ros::ok())
+  //   {
+  //     ros::spinOnce();
+  //     loop_rate.sleep();
+  //   }
 
   return 0;
 }
