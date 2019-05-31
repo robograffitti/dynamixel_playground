@@ -10,7 +10,7 @@
 // #include <dynamixel_workbench_msgs/DynamixelCommandRequest.h>
 // #include <dynamixel_workbench_msgs/DynamixelCommandResponse.h>
 
-static int control_cycle = 100;
+static int control_cycle = 120; // max < 125
 static int queue = 1;
 
 ros::ServiceClient client;

@@ -17,7 +17,7 @@ void jointStateCallback(const sensor_msgs::JointStateConstPtr& msg)
   point.positions.resize(1);
   // point.positions.push_back(position);
   point.positions[0] = position;
-  point.time_from_start = ros::Duration(0.010);
+  point.time_from_start = ros::Duration(1.0 / control_cycle);
 
   traj.points.resize(1);
   traj.points[0] = point;
@@ -65,7 +65,6 @@ int main(int argc, char **argv)
     {
       joint_traj_pub.publish(traj);
       ros::spinOnce();
-      ROS_INFO("loop");
       loop_rate.sleep();
     }
 
