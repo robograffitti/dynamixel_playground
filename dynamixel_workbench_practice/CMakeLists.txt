@@ -135,6 +135,8 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(master_slave_service src/master_slave_service.cpp)
 add_executable(master_slave_joint_traj src/master_slave_joint_traj.cpp)
+add_executable(sin_pub src/sin_pub.cpp)
+add_executable(sin_sub src/sin_sub.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -146,10 +148,14 @@ add_executable(master_slave_joint_traj src/master_slave_joint_traj.cpp)
 ## same as for the library above
 add_dependencies(master_slave_service ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(master_slave_joint_traj ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(sin_pub ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(sin_sub ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(master_slave_service ${catkin_LIBRARIES})
 target_link_libraries(master_slave_joint_traj ${catkin_LIBRARIES})
+target_link_libraries(sin_pub ${catkin_LIBRARIES})
+target_link_libraries(sin_sub ${catkin_LIBRARIES})
 
 #############
 ## Install ##

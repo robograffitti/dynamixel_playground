@@ -7,8 +7,8 @@ from dynamixel_workbench_msgs.srv import DynamixelCommandResponse
 
 control_cycle = 125 # use if willing to regulate control cycle.
 queue = 1
-id_1 = 1
-id_2 = 2
+id_1 = 7 # 1
+id_2 = 8 # 2
 
 # subscribe joint states and call dynamixel command service.
 def joint_states_callback(msg):
